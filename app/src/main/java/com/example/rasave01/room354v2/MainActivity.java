@@ -43,23 +43,32 @@ public class MainActivity extends AppCompatActivity {
             float[] distance = new float[1];
             Location.distanceBetween(iaLocation.getLatitude(), iaLocation.getLongitude(), SET_LAT, SET_LONG,distance);
             // check distance
-            if(distance[0] < 3.0){
+            if(distance[0] < 13.0){
                 // if distance is accurate check floor
-                if(iaLocation.getFloorLevel()==SET_FLOOR){
+                //if(iaLocation.getFloorLevel()==SET_FLOOR){
                     // make toast
                     textLoc.setText("You reached room 345!!! WELCOME!");
-                }
+                //}
             }
 
-            textLoc.setText(String.valueOf(new StringBuilder().append("Lat: ").
-                    append(iaLocation.getLatitude()).append(", Long: ").
-                    append(iaLocation.getLongitude()).append(", Floor Level: ").
-                    append(iaLocation.getFloorLevel()).append(", Accuracy: ").
-                    append(iaLocation.getAccuracy()).append(", Distance to room 354: ").
-                    append(distance[0]).toString()));
+            textLoc.setText(String.valueOf(new StringBuilder().
+                    append("Lat: "). append(iaLocation.getLatitude()).
+                    append(", Long: ").append(iaLocation.getLongitude()).
+                    append(", Floor Level: ").append(iaLocation.getFloorLevel()).
+                    append(", Accuracy: ").append(iaLocation.getAccuracy()).
+                    append(", Distance to room 354: ").append(distance[0]).
+                    append("m").toString()));
 
 
             // write log to the firebase database
+
+            LogMessage logMessage = new LogMessage(iaLocation,distance);
+
+            // for testing purposes for now...
+            TextView textLog = (TextView)findViewById(R.id.textLog);
+            textLog.setText(new StringBuilder().append("Log message: ").
+                    append(logMessage.timeStamp).append(":").
+                    append(distance[0]).toString());
         }
 
         @Override
