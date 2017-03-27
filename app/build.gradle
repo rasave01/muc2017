@@ -33,3 +33,5 @@ repositories{
         url "http://indooratlas-ltd.bintray.com/mvn-public"
     }
 }
+
+apply plugin: 'com.google.gms.google-services'

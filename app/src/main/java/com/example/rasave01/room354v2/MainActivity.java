@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(IALocation iaLocation) {
             TextView textLoc = (TextView) findViewById(R.id.textView);
-            textLoc.setText(String.valueOf(iaLocation.getLongitude()+", "+iaLocation.getLatitude()));
+            textLoc.setText(String.valueOf("Lat: "+iaLocation.getLatitude()+", Long: "+iaLocation.getLongitude()));
         }
 
         @Override

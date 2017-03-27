@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "414562640917",
+    "firebase_url": "https://room354-e0c34.firebaseio.com",
+    "project_id": "room354-e0c34",
+    "storage_bucket": "room354-e0c34.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414562640917:android:703a33944b0e6b6d",
+        "android_client_info": {
+          "package_name": "com.example.rasave01.room354v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414562640917-b4v8jbnrkgnrdnu32cfj12ifsp11vee5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO9TqTEb4J9H1spCJDWLOD-0nHHd3x3gM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
