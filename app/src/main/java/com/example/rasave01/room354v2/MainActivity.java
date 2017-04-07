@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private final double SET_LONG = -0.130809992551804;
     private final int SET_FLOOR = 3;
 
+    // set the taget distance to the entry point to 3m. This can be changed to any positive value
+    private final float TARGET  = (float) 3.0;
+
     //set up an IndoorAtlas location manager
     IALocationManager mLocationManager;
 
@@ -35,40 +38,58 @@ public class MainActivity extends AppCompatActivity {
         public void onLocationChanged(IALocation iaLocation) {
 
             // Change the message of the text view to give Lat and Long values, on location changed event
-            TextView textLoc = (TextView) findViewById(R.id.textView);
-            textLoc.setText("Location changed...");
+            TextView textCoord = (TextView) findViewById(R.id.textCoordinates);
+            textCoord.setText("Location changed...");
+
+            TextView textFloor = (TextView) findViewById(R.id.textFloorLevel);
+            TextView textAccuracy = (TextView) findViewById(R.id.textAccuracy);
+            TextView textDistance = (TextView) findViewById(R.id.textDistance);
+            TextView textOnTarget = (TextView) findViewById(R.id.textOnTarget);
 
             // check if close to set location and change the text
             // initialise distace - should find a better option really...
             float[] distance = new float[1];
             Location.distanceBetween(iaLocation.getLatitude(), iaLocation.getLongitude(), SET_LAT, SET_LONG,distance);
-            // check distance
-            if(distance[0] < 13.0){
+
+            // check distance by coparing two floats - tricky!
+
+            int withinLimit = Float.compare(distance[0], TARGET);
+
+            if(withinLimit < 0){
                 // if distance is accurate check floor
                 //if(iaLocation.getFloorLevel()==SET_FLOOR){
                     // make toast
-                    textLoc.setText("You reached room 345!!! WELCOME!");
+                    textOnTarget.setText("You reached room 345!!! WELCOME!");
+                Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+
+
                 //}
             }
-
-            textLoc.setText(String.valueOf(new StringBuilder().
+            //change Coordinates text
+            textCoord.setText(String.valueOf(new StringBuilder().
                     append("Lat: "). append(iaLocation.getLatitude()).
-                    append(", Long: ").append(iaLocation.getLongitude()).
-                    append(", Floor Level: ").append(iaLocation.getFloorLevel()).
-                    append(", Accuracy: ").append(iaLocation.getAccuracy()).
-                    append(", Distance to room 354: ").append(distance[0]).
+                    append(", Long: ").append(iaLocation.getLongitude())));
+
+            textFloor.setText(String.valueOf(new StringBuilder().
+                     append("Floor Level: ").append(iaLocation.getFloorLevel())));
+
+            textAccuracy.setText(String.valueOf(new StringBuilder().
+                    append("Accuracy: ").append(iaLocation.getAccuracy())));
+
+            textDistance.setText(String.valueOf(new StringBuilder().
+                    append("Distance to room 354: ").append(distance[0]).
                     append("m").toString()));
 
-
-            // write log to the firebase database
 
             LogMessage logMessage = new LogMessage(iaLocation,distance);
 
             // for testing purposes for now...
             TextView textLog = (TextView)findViewById(R.id.textLog);
             textLog.setText(new StringBuilder().append("Log message: ").
-                    append(logMessage.timeStamp).append(":").
+                    append(logMessage.timeStamp).append(" distance was ").
                     append(distance[0]).toString());
+
+
         }
 
         @Override
@@ -104,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mLocationManager.requestLocationUpdates(IALocationRequest.create(), mLocationListener);
         Toast.makeText(this, "Location re-started...", Toast.LENGTH_SHORT).show();
-        TextView textLoc = (TextView) findViewById(R.id.textView);
-        textLoc.setText("Location re-started...");
+        //TextView textLoc = (TextView) findViewById(R.id.textCoordinates);
+        //textLoc.setText("Location re-started...");
     }
 
     //stop receiving location updates when the app runs in the back-ground, to save battery
@@ -114,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
         //notify user though long toast
         Toast.makeText(this, "Location paused...", Toast.LENGTH_SHORT).show();
         mLocationManager.removeLocationUpdates(mLocationListener);
-        TextView textLoc = (TextView) findViewById(R.id.textView);
-        textLoc.setText("Location paused...");
+        //TextView textLoc = (TextView) findViewById(R.id.textView);
+        //textLoc.setText("Location paused...");
         super.onPause();
 
     }

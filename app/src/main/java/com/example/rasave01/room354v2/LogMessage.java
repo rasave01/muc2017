@@ -17,14 +17,13 @@ public class LogMessage {
 
         this.currentLocation = currentLocation;
 
-        this.c=Calendar.getInstance();
+        this.c = Calendar.getInstance();
         this.timeStamp = String.valueOf(c.get(Calendar.YEAR)
-                        + ":" + c.get(Calendar.MONTH)
-                        + ":" + c.get(Calendar.DAY_OF_MONTH)
-                        + "-" + c.get(Calendar.HOUR_OF_DAY)
+                        + "/" + c.get(Calendar.MONTH)
+                        + "/" + c.get(Calendar.DAY_OF_MONTH)
+                        + " at " + c.get(Calendar.HOUR_OF_DAY)
                         + ":" + c.get(Calendar.MINUTE)
                         + ":" + c.get(Calendar.SECOND)
-                        + ":" + c.get(Calendar.MILLISECOND)
         );
 
         this.dist = dist;
