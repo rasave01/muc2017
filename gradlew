@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-before_install:
- - chmod +x gradlew
+
 ##############################################################################
 ##
 ##  Gradle start up script for UN*X
@@ -9,7 +8,8 @@ before_install:
 
 # Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
 DEFAULT_JVM_OPTS=""
-
+before_install:
+ - chmod +x gradlew
 APP_NAME="Gradle"
 APP_BASE_NAME=`basename "$0"`
 
