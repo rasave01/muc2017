@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-
+before_install:
+ - chmod +x gradlew
 ##############################################################################
 ##
 ##  Gradle start up script for UN*X
