@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     // set a Firebase reference
     private DatabaseReference mDatabase;
 
-
     // set up an IndoorAtlas location listener
     IALocationListener mLocationListener = new IALocationListener() {
 
@@ -65,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
             if(withinLimit < 0){
                 // if distance is accurate check floor
-                //if(iaLocation.getFloorLevel()==SET_FLOOR){
+                if(iaLocation.getFloorLevel()==SET_FLOOR){
                     // make toast
                     textOnTarget.setText("You reached room 345!!! WELCOME!");
-                Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
-                //}
+                    Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+                }
             }
             //change Coordinates text
             textCoord.setText(String.valueOf(new StringBuilder().
@@ -105,10 +104,7 @@ public class MainActivity extends AppCompatActivity {
         public void onStatusChanged(String s, int i, Bundle bundle) {
 
         }
-
     };
-
-
 
     // set proper permissions at run-time
     @Override
@@ -135,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mLocationManager.requestLocationUpdates(IALocationRequest.create(), mLocationListener);
         Toast.makeText(this, "Location re-started...", Toast.LENGTH_SHORT).show();
-        //TextView textLoc = (TextView) findViewById(R.id.textCoordinates);
-        //textLoc.setText("Location re-started...");
     }
 
     //stop receiving location updates when the app runs in the back-ground, to save battery
@@ -145,8 +139,6 @@ public class MainActivity extends AppCompatActivity {
         //notify user though long toast
         Toast.makeText(this, "Location paused...", Toast.LENGTH_SHORT).show();
         mLocationManager.removeLocationUpdates(mLocationListener);
-        //TextView textLoc = (TextView) findViewById(R.id.textView);
-        //textLoc.setText("Location paused...");
         super.onPause();
 
     }

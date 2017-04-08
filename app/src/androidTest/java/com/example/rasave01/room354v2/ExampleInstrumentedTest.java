@@ -1,6 +1,9 @@
 package com.example.rasave01.room354v2;
 
+import android.app.Instrumentation;
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
