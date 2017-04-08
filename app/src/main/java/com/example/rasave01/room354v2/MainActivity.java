@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.indooratlas.android.sdk.IALocation;
 import com.indooratlas.android.sdk.IALocationListener;
 import com.indooratlas.android.sdk.IALocationManager;
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     // set location of entry point to room 354
     private final double SET_LAT = 51.5222567029726;
     private final double SET_LONG = -0.130809992551804;
+
+    // set floor level of room 354
     private final int SET_FLOOR = 3;
 
     // set the taget distance to the entry point to 3m. This can be changed to any positive value
@@ -29,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     //set up an IndoorAtlas location manager
     IALocationManager mLocationManager;
+
+    // set a Firebase reference
+    private DatabaseReference mDatabase;
+
 
     // set up an IndoorAtlas location listener
     IALocationListener mLocationListener = new IALocationListener() {
@@ -47,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             TextView textOnTarget = (TextView) findViewById(R.id.textOnTarget);
 
             // check if close to set location and change the text
-            // initialise distace - should find a better option really...
+            // initialise distance - should find a better option really...
             float[] distance = new float[1];
             Location.distanceBetween(iaLocation.getLatitude(), iaLocation.getLongitude(), SET_LAT, SET_LONG,distance);
 
@@ -61,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
                     // make toast
                     textOnTarget.setText("You reached room 345!!! WELCOME!");
                 Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
-
-
                 //}
             }
             //change Coordinates text
@@ -83,13 +89,16 @@ public class MainActivity extends AppCompatActivity {
 
             LogMessage logMessage = new LogMessage(iaLocation,distance);
 
+            mDatabase= FirebaseDatabase.getInstance().getReference();
+            mDatabase.child(logMessage.timeStamp).setValue(iaLocation);
+
             // for testing purposes for now...
             TextView textLog = (TextView)findViewById(R.id.textLog);
             textLog.setText(new StringBuilder().append("Log message: ").
                     append(logMessage.timeStamp).append(" distance was ").
                     append(distance[0]).toString());
 
-
+            Toast.makeText(getApplicationContext(), "Firebase updated", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -98,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
+
 
 
     // set proper permissions at run-time
