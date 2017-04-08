@@ -19,6 +19,7 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
+    // set initial permissions
     private final int CODE_PERMISSIONS=0;
 
     // set location of entry point to room 354
@@ -58,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
             float[] distance = new float[1];
             Location.distanceBetween(iaLocation.getLatitude(), iaLocation.getLongitude(), SET_LAT, SET_LONG,distance);
 
-            // check distance by coparing two floats - tricky!
-
+            // check distance by comparing two floats - tricky!
             int withinLimit = Float.compare(distance[0], TARGET);
 
             if(withinLimit < 0){
@@ -75,28 +75,32 @@ public class MainActivity extends AppCompatActivity {
                     append("Lat: "). append(iaLocation.getLatitude()).
                     append(", Long: ").append(iaLocation.getLongitude())));
 
+            // change floor text
             textFloor.setText(String.valueOf(new StringBuilder().
                      append("Floor Level: ").append(iaLocation.getFloorLevel())));
 
+            // change accuracy text
             textAccuracy.setText(String.valueOf(new StringBuilder().
                     append("Accuracy: ").append(iaLocation.getAccuracy())));
-
+            // change distance text
             textDistance.setText(String.valueOf(new StringBuilder().
                     append("Distance to room 354: ").append(distance[0]).
                     append("m").toString()));
 
-
+            // create new log message - timestamp
             LogMessage logMessage = new LogMessage(iaLocation,distance);
 
+            // connect to database and log location under timestamp node
             mDatabase= FirebaseDatabase.getInstance().getReference();
             mDatabase.child(logMessage.timeStamp).setValue(iaLocation);
 
-            // for testing purposes for now...
+            // change log message text
             TextView textLog = (TextView)findViewById(R.id.textLog);
             textLog.setText(new StringBuilder().append("Log message: ").
                     append(logMessage.timeStamp).append(" distance was ").
                     append(distance[0]).toString());
 
+            // finish with toast confirming firbease update
             Toast.makeText(getApplicationContext(), "Firebase updated", Toast.LENGTH_SHORT).show();
         }
 
@@ -106,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    // set proper permissions at run-time
+    // set proper permissions at run-time for the app to run
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this,neededPermissions,CODE_PERMISSIONS);
         setContentView(R.layout.activity_main);
 
-        // create a location mamager
+        // create an IndoorAtlas location manager
         mLocationManager=IALocationManager.create(this);
 
         // make a long toast to show that location by IndoorAtlas has started
@@ -156,5 +160,4 @@ public class MainActivity extends AppCompatActivity {
 
         // Handle if any permissions are denied in grantResults above
     }
-
 }
